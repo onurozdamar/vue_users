@@ -1,18 +1,25 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <UserList v-for="user in users" :key="user.id" :user="user" />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import UserList from "@/components/UserList.vue";
 
 export default {
   name: "Home",
   components: {
-    HelloWorld,
+    UserList,
+  },
+  computed: {
+    users() {
+      return this.$store.state.users;
+    },
+  },
+  created() {
+    this.$store.dispatch("getUsers");
   },
 };
 </script>
