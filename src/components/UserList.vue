@@ -1,6 +1,6 @@
 <template>
   <div class="list" :style="marginStyle">
-    <div class="item">
+    <div class="item" @click="goToPosts">
       <span v-if="user.children.length" class="icon" @click="toggleOpen">{{
         isOpen ? "-" : "+"
       }}</span>
@@ -38,8 +38,15 @@ export default {
     },
   },
   methods: {
-    toggleOpen() {
+    toggleOpen(event) {
+      event.stopPropagation();
       this.isOpen = !this.isOpen;
+    },
+    goToPosts() {
+      console.log("goto post");
+      this.$router
+        .push({ name: "Posts", params: { id: this.user.id } })
+        .catch(() => {});
     },
   },
 };
@@ -51,6 +58,7 @@ export default {
 }
 .item {
   margin-bottom: 5px;
+  cursor: pointer;
 }
 .icon {
   font-weight: bold;
