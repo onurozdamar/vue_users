@@ -10,7 +10,8 @@ export default new Vuex.Store({
   },
   mutations: {
     setUsers(state, users) {
-      users.map((user) => {
+      // convert users to new model that has children array
+      const usersWithChildren = users.map((user) => {
         user.children = [];
         if (!user.parentId) {
           return user;
@@ -20,9 +21,10 @@ export default new Vuex.Store({
           parent.children = [];
         }
         parent.children.push(user);
+        return null;
       });
 
-      state.users = users;
+      state.users = usersWithChildren.filter((u) => u);
     },
   },
   actions: {
