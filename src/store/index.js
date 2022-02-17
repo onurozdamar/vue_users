@@ -10,21 +10,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setUsers(state, users) {
-      // convert users to new model that has children array
-      const usersWithChildren = users.map((user) => {
-        user.children = [];
-        if (!user.parentId) {
-          return user;
-        }
-        const parent = users.find((u) => u.id === user.parentId);
-        if (!parent.children) {
-          parent.children = [];
-        }
-        parent.children.push(user);
-        return null;
-      });
-
-      state.users = usersWithChildren.filter((u) => u);
+      state.users = users;
     },
   },
   actions: {
