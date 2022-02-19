@@ -33,7 +33,8 @@ export default {
   },
   methods: {
     save() {
-      console.log("save", this.$store.users);
+      console.log("save", this.user);
+      this.$store.dispatch("updateUsers", this.user);
     },
   },
 };
