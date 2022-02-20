@@ -5,14 +5,30 @@
     @mouseleave="showButtons = false"
   >
     <div v-if="!editing">
-      <p>{{ user.name && user.name }}</p>
+      <div v-if="post.title">
+        <h3>Title</h3>
+        <p>{{ post.title }}</p>
+      </div>
+      <div v-if="post.body">
+        <h3>Body</h3>
+        <p>{{ post.body }}</p>
+      </div>
     </div>
     <div v-if="editing" class="form-container">
       <form>
         <div class="input-container">
-          <label for="name-input">Name:</label>
+          <label for="name-input">Title:</label>
           <input
-            v-model="user.name"
+            v-model="post.title"
+            type="text"
+            name="name-input"
+            id="name-input"
+          />
+        </div>
+        <div class="input-container">
+          <label for="name-input">Body:</label>
+          <input
+            v-model="post.body"
             type="text"
             name="name-input"
             id="name-input"
@@ -34,25 +50,29 @@ export default {
   name: "Post",
   props: {
     post: Object,
-    user: Object,
   },
   data() {
     return {
-      showButtons: true,
+      showButtons: false,
       editing: false,
-      name: "",
-      email: "",
-      postLabel: "",
     };
   },
   methods: {
     goToDetail() {
-      console.log(this.name, this.email, this.postLabel);
+      console.log("goto detail");
+      this.$router
+        .push({
+          name: "PostDetail",
+          params: { id: this.post.id },
+        })
+        .catch(() => {});
     },
     editPost() {
       this.editing = !this.editing;
     },
-    removePost() {},
+    removePost() {
+      this.$store.commit("removePost", this.post.id);
+    },
   },
   created() {
     console.log("post created", this.user);

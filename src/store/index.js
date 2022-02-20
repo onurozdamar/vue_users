@@ -7,10 +7,21 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     users: [],
+    posts: [],
+    post: {},
   },
   mutations: {
     setUsers(state, users) {
       state.users = users;
+    },
+    setPosts(state, posts) {
+      state.posts = posts;
+    },
+    removePost(state, id) {
+      state.posts = state.posts.filter((p) => p.id !== id);
+    },
+    setPost(state, post) {
+      state.post = post;
     },
   },
   actions: {
@@ -61,6 +72,32 @@ export default new Vuex.Store({
       const response = await Promise.all(requests);
 
       return response.data;
+    },
+    getPosts({ commit }) {
+      console.log("getPosts");
+      axios
+        .get("https://jsonplaceholder.typicode.com/posts")
+        .then((res) => {
+          console.log("res post", res);
+          commit("setPosts", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          commit("setPosts", []);
+        });
+    },
+    getPost({ commit }, id) {
+      console.log("getPost detail", id);
+      axios
+        .get("https://jsonplaceholder.typicode.com/posts/" + id)
+        .then((res) => {
+          console.log("res post detail", res);
+          commit("setPost", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          commit("setPost", {});
+        });
     },
   },
   modules: {},

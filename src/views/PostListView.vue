@@ -1,7 +1,7 @@
 <template>
   <div class="posts" v-if="userName">
     <div>{{ userName }}'s Posts</div>
-    <PostList :user="user" />
+    <PostList :user="user" :posts="posts" />
     <button @click="save">Save</button>
   </div>
 </template>
@@ -27,9 +27,13 @@ export default {
     userName() {
       return this.user?.name;
     },
+    posts() {
+      return this.$store.state.posts.filter((p) => p.userId === this.user.id);
+    },
   },
   created() {
     console.log("created post list view", this.user, this.$store.users);
+    this.$store.dispatch("getPosts");
   },
   methods: {
     save() {

@@ -1,7 +1,6 @@
 <template>
   <div>
-    <Post :user="user" />
-    <PostList v-for="child in user.children" :key="child.id" :user="child" />
+    <Post v-for="post in posts" :key="post.id" :post="post" />
   </div>
 </template>
 
@@ -14,10 +13,10 @@ export default {
     Post,
   },
   props: {
-    user: Object,
+    posts: Array,
   },
   created() {
-    console.log("created post list", this.user);
+    console.log("created post list", this.posts);
   },
 };
 </script>
